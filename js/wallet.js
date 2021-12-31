@@ -112,7 +112,7 @@ class Usuario {
 // };
 
 console.log("levanto el js");
-const usuario = new Usuario();
+const usuario = new Usuario();//
 
 $("#modalBienvenida").modal("show"); // abrir
 
