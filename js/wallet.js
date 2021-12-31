@@ -93,22 +93,33 @@ class Usuario {
 //   const miWallet = new Wallet(nombre,dni,montoActual);
 //Inicializacion
 
-const guardarNombre = (event) => {
-  let btn = event.target;
+// const guardarNombre = (event) => {
+//   event.preventDefault();
+//   let btn = event.target;
 
-  const formInputUsername = document.querySelectorAll(".formInputUsername"); // Botón "Agregar al carrito"
+//   const formInputUsername = document.querySelector(".formInputUsername"); // Botón "Agregar al carrito"
+  
+//   let nombre = formInputUsername.value;
+//   usuario.setNombre(nombre);
+//   usuario.setDNI(123123123);
+//   console.log('USUARIO: ',usuario);
 
-  console.log(formInputUsername[0].value);
-};
+//   const tituloBienvenida = document.querySelector('.tituloBienvenida');
+  
+ 
+//   tituloBienvenida.innerHTML  = `Bienvenid@ ${usuario._nombre} a RocketWallet`;
+
+// };
 
 console.log("levanto el js");
 const usuario = new Usuario();
+
 $("#modalBienvenida").modal("show"); // abrir
 
-const guardarModalBienvenida = document.querySelectorAll(
-  ".btnGuardarModalBienvenida"
-); // Botón "Agregar al carrito"
-guardarModalBienvenida[0].addEventListener("click", guardarNombre);
+// const guardarModalBienvenida = document.querySelectorAll(
+//   ".btnGuardarModalBienvenida"
+// ); // Botón "Agregar al carrito"
+// guardarModalBienvenida[0].addEventListener("click", guardarNombre);
 
 const guardarUsuario = (e) => {
   let nombre = e.target;
@@ -116,10 +127,18 @@ const guardarUsuario = (e) => {
   usuario.setNombre(nombre.value);
   usuario.setDNI(123123123);
   console.log('USUARIO: ',usuario);
+
+  const tituloBienvenida = document.querySelector('.tituloBienvenida');
+ 
+  tituloBienvenida.innerHTML  = `Bienvenid@ ${usuario._nombre} a RocketWallet`;
+
 };
 
 const formInputUsername = document.querySelector(".formInputUsername");
 formInputUsername.addEventListener("change", guardarUsuario);
+
+
+
 
 //   $('#myModalExito').modal('hide'); // cerrar
 //   let seguirCargando = true;
