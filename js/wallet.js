@@ -129,7 +129,6 @@ const guardarUsuario = (e) => {
   console.log('USUARIO: ',usuario);
 
   const tituloBienvenida = document.querySelector('.tituloBienvenida');
- 
   tituloBienvenida.innerHTML  = `Bienvenid@ ${usuario._nombre} a RocketWallet`;
 
 };
