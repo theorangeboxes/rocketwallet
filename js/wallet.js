@@ -3,7 +3,7 @@
 //Funciones
 
 //Retorna un monto válido ingresado por el usuario
-const IngresoMontoValido = () => {
+const IngresoMontoValido = (monto) => {
   let montoValido = false;
   let carga = 0;
   while (!montoValido) {
@@ -35,7 +35,7 @@ class Transaccion {
 
 //clase wallet
 class Wallet {
-  constructor(nombre, dni, cargaInicial) {
+  constructor(nombre = "Anonimo", dni = "99999999", cargaInicial = 100) {
     this.nombre = nombre;
     this.dni = dni;
     this.carga = cargaInicial;
@@ -73,6 +73,29 @@ class Usuario {
     return this._dni;
   };
 }
+
+const imprimeTransacciones = (transacciones) => {
+  const tabla = `Bienvenid@ ${usuario._nombre} a RocketWallet`;
+  const tablaTransacciones = document.querySelector(".tablaTransacciones");
+  let htmlTablaTransacciones = ``;
+  transacciones.forEach((transaccion) => {
+    htmlTablaTransacciones += `
+                            <tr>
+                            <th scope="row">${transaccion.id}</th>
+                            <td>${transaccion.fecha.toLocaleString()}</td>
+                            <td>${transaccion.carga}</td>
+                            <td>${transaccion.saldo}</td>
+                          </tr>
+                        `;
+  });
+
+  tablaTransacciones.innerHTML = htmlTablaTransacciones;
+};
+
+const actualizaSaldo = () => {
+  const saldo = document.querySelector(".saldo");
+  saldo.innerHTML = `$ ${miWallet2.verSaldo()}`;
+};
 //comienzo de programa
 
 //   const nombre = prompt(
@@ -98,46 +121,102 @@ class Usuario {
 //   let btn = event.target;
 
 //   const formInputUsername = document.querySelector(".formInputUsername"); // Botón "Agregar al carrito"
-  
+
 //   let nombre = formInputUsername.value;
 //   usuario.setNombre(nombre);
 //   usuario.setDNI(123123123);
 //   console.log('USUARIO: ',usuario);
 
 //   const tituloBienvenida = document.querySelector('.tituloBienvenida');
-  
- 
+
 //   tituloBienvenida.innerHTML  = `Bienvenid@ ${usuario._nombre} a RocketWallet`;
 
 // };
+const altaWallet = (usuario) => {
+  console.log("Instancio miWallet");
+  const miWallet = new Wallet(usuario.getNombre, usuario.getDNI, 0);
+  console.log(miWallet);
+};
+//Guarda usuario en base al evento change
+const guardarUsuario = (e) => {
+  let nombre = e.target;
 
-console.log("levanto el js");
-const usuario = new Usuario();//
+  console.log(nombre.value);
+  usuario.setNombre(nombre.value);
+  usuario.setDNI(123123123);
+  console.log("USUARIO: ", usuario);
 
-$("#modalBienvenida").modal("show"); // abrir
+  const tituloBienvenida = document.querySelector(".tituloBienvenida");
+  tituloBienvenida.innerHTML = `Bienvenid@ ${usuario._nombre} a RocketWallet`;
+  //altaWallet(usuario); //revisar
+};
 
 // const guardarModalBienvenida = document.querySelectorAll(
 //   ".btnGuardarModalBienvenida"
 // ); // Botón "Agregar al carrito"
 // guardarModalBienvenida[0].addEventListener("click", guardarNombre);
-
-const guardarUsuario = (e) => {
-  let nombre = e.target;
-  console.log(nombre.value);
-  usuario.setNombre(nombre.value);
-  usuario.setDNI(123123123);
-  console.log('USUARIO: ',usuario);
-
-  const tituloBienvenida = document.querySelector('.tituloBienvenida');
-  tituloBienvenida.innerHTML  = `Bienvenid@ ${usuario._nombre} a RocketWallet`;
-
-};
+// asigno
 
 const formInputUsername = document.querySelector(".formInputUsername");
 formInputUsername.addEventListener("change", guardarUsuario);
 
+const btnDeposito = document.querySelector(".btnDeposito");
+console.log(btnDeposito);
+btnDeposito.addEventListener("click", (e) => {
+  $("#modalDeposito").modal("show");
+});
 
+const guardarDeposito = (e) => {
+  let montoDeposito = document.querySelector(".montoDeposito");
+  console.log(montoDeposito.value);
+  let carga = parseInt(montoDeposito.value);
+  if (carga <= 0 || carga > 5000) {
+    alert("Monto Inválido!! Debe ingresar valores entre 0 a 5000");
+  } else {
+    miWallet2.cargarSaldo(parseInt(montoDeposito.value));
+    imprimeTransacciones(miWallet2.transacciones);
+    actualizaSaldo();
+    montoDeposito.value = "";
+    console.log(montoDeposito.value);
+    $("#modalDeposito").modal("hide");
+    // monto.innerHTML = `Bienvenid@ ${usuario._nombre} a RocketWallet`;
+  }
+};
 
+const btnGuardarDeposito = document.querySelector(".btnGuardarDeposito");
+btnGuardarDeposito.addEventListener("click", guardarDeposito);
+
+const guardarRetiro = (e) => {
+  let montoRetiro = document.querySelector(".montoRetiro");
+  console.log(montoRetiro.value);
+  let carga = parseInt(montoRetiro.value);
+  if (carga > miWallet2.verSaldo() && carga >= 0){
+    alert("Monto Inválido!!");
+  } else {
+    miWallet2.cargarSaldo(parseInt(montoRetiro.value) * -1);
+    imprimeTransacciones(miWallet2.transacciones);
+    actualizaSaldo();
+    montoRetiro.value = "";
+    console.log(montoRetiro.value);
+    $("#modalDeposito").modal("hide");
+    // monto.innerHTML = `Bienvenid@ ${usuario._nombre} a RocketWallet`;
+  }
+};
+
+const btnRetiro = document.querySelector(".btnRetiro");
+console.log(btnRetiro);
+btnRetiro.addEventListener("click", (e) => {
+  $("#modalRetiro").modal("show");
+});
+const btnGuardarRetiro = document.querySelector(".btnGuardarRetiro");
+btnGuardarRetiro.addEventListener("click", guardarRetiro);
+
+console.log("levanto el js");
+$("#modalBienvenida").modal("show"); // abrir
+const miWallet2 = new Wallet();
+const usuario = new Usuario(); //
+imprimeTransacciones(miWallet2.transacciones);
+actualizaSaldo();
 
 //   $('#myModalExito').modal('hide'); // cerrar
 //   let seguirCargando = true;
