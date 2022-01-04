@@ -1,24 +1,3 @@
-//Bienvenid@s
-
-//Funciones
-
-//Retorna un monto válido ingresado por el usuario
-// const IngresoMontoValido = (monto) => {
-//   let montoValido = false;
-//   let carga = 0;
-//   while (!montoValido) {
-//     carga = Number(
-//       prompt("Ingrese al monto que desea cargar en su wallet (entre 0 y 500): ")
-//     );
-//     if (carga <= 0 || carga > 500) {
-//       alert("Monto Inválido!! Debe ingresar valores entre 0 a 500");
-//     } else {
-//       montoValido = true;
-//     }
-//   }
-//   return carga;
-// };
-
 //clase Transaccion
 class Transaccion {
   constructor(carga, saldo) {
@@ -61,17 +40,13 @@ class Usuario {
   setNombre = (nombre) => {
     this._nombre = nombre;
   };
-  // getNombre = () => {
-  //   return this._nombre;
-  // };
+
   setDNI = (dni) => {
     this._dni = dni;
   };
-  // getDNI = () => {
-  //   return this._dni;
-  // };
 }
 
+// Funciones
 const imprimeTransacciones = (transacciones) => {
   const tabla = `Bienvenid@ ${usuario._nombre} a RocketWallet`;
   const tablaTransacciones = document.querySelector(".tablaTransacciones");
@@ -95,11 +70,8 @@ const actualizaSaldo = () => {
   saldo.innerHTML = `$ ${miWallet2.verSaldo()}`;
 };
 
-// const altaWallet = (usuario) => {
-//   console.log("Instancio miWallet");
-//   const miWallet = new Wallet(0);
-//   console.log(miWallet);
-// };
+// Funciones de eventos
+
 //Guarda usuario en base al evento change
 const guardarUsuario = (e) => {
   let nombre = e.target;
@@ -111,25 +83,21 @@ const guardarUsuario = (e) => {
 
   const tituloBienvenida = document.querySelector(".tituloBienvenida");
   tituloBienvenida.innerHTML = `Bienvenid@ ${usuario._nombre} a RocketWallet`;
-  //altaWallet(usuario); //revisar
 };
-
-// const guardarModalBienvenida = document.querySelectorAll(
-//   ".btnGuardarModalBienvenida"
-// ); // Botón "Agregar al carrito"
-// guardarModalBienvenida[0].addEventListener("click", guardarNombre);
-// asigno
 
 const formInputUsername = document.querySelector(".formInputUsername");
 formInputUsername.addEventListener("change", guardarUsuario);
 
+// MANEJO DEL DEPOSITO
+
+// Evento a boton principal deposito que abre el modal
 const btnDeposito = document.querySelector(".btnDeposito");
 console.log(btnDeposito);
 btnDeposito.addEventListener("click", (e) => {
   $("#modalDeposito").modal("show");
 });
 
-// EVENTo y FUNCION PARA DEPOSITAR
+//Evento y funciona para deposito dentro del modal
 const guardarDeposito = (e) => {
   let montoDeposito = document.querySelector(".montoDeposito");
   console.log(montoDeposito.value);
@@ -150,7 +118,15 @@ const guardarDeposito = (e) => {
 const btnGuardarDeposito = document.querySelector(".btnGuardarDeposito");
 btnGuardarDeposito.addEventListener("click", guardarDeposito);
 
-// EVENTO Y FUNCION PARA RETIRAR
+// MANEJO DEL RETIRO
+
+// Evento a boton principal retiro que abre el modal
+const btnRetiro = document.querySelector(".btnRetiro");
+console.log(btnRetiro);
+btnRetiro.addEventListener("click", (e) => {
+  $("#modalRetiro").modal("show");
+});
+
 const guardarRetiro = (e) => {
   let montoRetiro = document.querySelector(".montoRetiro");
   console.log(montoRetiro.value);
@@ -191,43 +167,14 @@ const guardarRetiro = (e) => {
     alert(error.mensaje);
     montoRetiro.value = "";
   }
-
-  // monto.innerHTML = `Bienvenid@ ${usuario._nombre} a RocketWallet`;
 };
 
-const btnRetiro = document.querySelector(".btnRetiro");
-console.log(btnRetiro);
-btnRetiro.addEventListener("click", (e) => {
-  $("#modalRetiro").modal("show");
-});
 const btnGuardarRetiro = document.querySelector(".btnGuardarRetiro");
 btnGuardarRetiro.addEventListener("click", guardarRetiro);
 
-console.log("levanto el js");
-$("#modalBienvenida").modal("show"); // abrir
-const miWallet2 = new Wallet();
-const usuario = new Usuario(); //
-imprimeTransacciones(miWallet2.transacciones);
-actualizaSaldo();
-
-//   $('#myModalExito').modal('hide'); // cerrar
-//   let seguirCargando = true;
-//   do{
-
-//     //Detectamos si el usuario acepto el mensaje
-
-//     miWallet.cargarSaldo(IngresoMontoValido());
-//     seguirCargando = confirm("¿Queres seguir realizando cargas?");
-
-//   }while (seguirCargando)
-
-//   //Despedida
-//   alert("Psss, revisa la consola en el inspector de código de tu navegador :) ");
-//   console.log("Tu carga total es $",miWallet.verSaldo());
-//   //Ordeno por fecha
-//   console.log("PREVIO SORT");
-//   miWallet.transacciones.forEach((e) => console.log(e.verTransaccion()));
-//   console.log("POST SORT");
-//   miWallet.transacciones.sort((a, b) => b.fecha - a.fecha)
-
-//   miWallet.transacciones.forEach((e) => console.log(e.verTransaccion()));
+console.log("Arranca programa Principal");
+$("#modalBienvenida").modal("show"); // abrir modal ingreso de usuario
+const miWallet2 = new Wallet(); //Instancio un objeto wallet (con 100 pesos de carga de regalo)
+const usuario = new Usuario(); //Instancio un usuario
+imprimeTransacciones(miWallet2.transacciones); //Imprimo las transacciones
+actualizaSaldo(); //actualizo el saldo de la wallet en html
